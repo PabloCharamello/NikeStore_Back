@@ -66,17 +66,11 @@ module.exports = (sequelize, Model, DataTypes) => {
       topRated: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        validate: {
-          notEmpty: true,
-        },
         defaultValue: false,
       },
       popularSales: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        validate: {
-          notEmpty: true,
-        },
         defaultValue: false,
       },
     },

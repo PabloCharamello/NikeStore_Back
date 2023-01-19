@@ -12,6 +12,7 @@ module.exports = async () => {
       color: "from-blue-600 to-blue-500",
       shadow: "shadow-lg shadow-blue-500",
       popularSales: true,
+      topRated: true,
     },
     {
       productName: "Nike Martine Rose",
