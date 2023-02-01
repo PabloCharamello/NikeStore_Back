@@ -1,27 +1,47 @@
 const { Shoes } = require("../models");
 
 async function index(req, res) {
-  console.log(req.query);
   try {
-    if (req.query) {
-      const shoes = await Shoes.findAll(req.query);
-      res.status(200).json(shoes);
-    }
-    if (req.query.popularSales) {
-      const poopularShoes = await Shoes.findAll({
+    if (req.query.popularSales && req.query.topRated) {
+      const popularSalesAndTopRated = await Shoes.findAll({
+        where: {
+          popularSales: req.query.popularSales === "true",
+          topRated: req.query.topRated === "true",
+        },
+      });
+      if (popularSalesAndTopRated.length > 0) {
+        res.status(200).json(popularSalesAndTopRated);
+      } else {
+        res.status(400).json({ message: "product not found" });
+      }
+    } else if (req.query.popularSales) {
+      const popularShoes = await Shoes.findAll({
         where: { popularSales: req.query.popularSales === "true" },
       });
-      res.status(200).json(poopularShoes);
+      if (popularShoes) {
+        res.status(200).json(popularShoes);
+      } else {
+        res.status(400).json({ message: "product not found" });
+      }
     } else if (req.query.topRated) {
       const topRatedShoes = await Shoes.findAll({
         where: { topRated: req.query.topRated === "true" },
       });
-      res.status(200).json(topRatedShoes);
+      if (topRatedShoes) {
+        res.status(200).json(topRatedShoes);
+      } else {
+        res.status(400).json({ message: "product not found" });
+      }
     } else {
-      res.status(200).json({ message: "product not found" });
+      const shoes = await Shoes.findAll(req.query);
+      if (shoes) {
+        res.status(200).json(shoes);
+      } else {
+        res.status(400).json({ message: "product not found" });
+      }
     }
   } catch (error) {
-    res.statur(400).json(error);
+    res.status(400).json(error);
   }
 }
 
